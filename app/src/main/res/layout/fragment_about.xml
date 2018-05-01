@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="12dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginLeft="12dp"
+    tools:context=".AboutActifity">
+    <!-- Letak layout Header -->
+
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+            android:text="Tentang Aplikasi"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:lineSpacingMultiplier="1.5"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="64dp"
+            android:id="@+id/imageView3"
+            android:src="@drawable/sigerkecil" />
+
+        <TextView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="CaKaDin (Cari Kantor Dinas) merupakan aplikasi yang mempermudah pencarian kantor dinas di kota Bandar Lampung"
+            android:textAlignment="center"
+            android:lineSpacingMultiplier="1.5" />
+    </LinearLayout>
+    <!-- Letak layout kaki -->
+
+
+</RelativeLayout>

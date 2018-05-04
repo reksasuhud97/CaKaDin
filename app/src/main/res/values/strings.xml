@@ -10,4 +10,12 @@
     <string name="ic_about">Tentang</string>
     <string name="ic_exit">Versi</string>
     <string name="action_settings">Settings</string>
+    <string name="id">ID</string>
+    <string name="name">Nama</string>
+    <string name="alamat">Alamat</string>
+    <string name="telp">Telepon</string>
+    <string name="morning">Pagi (09.00-11.00 WIB)</string>
+    <string name="afternoon">Siang (13.00-15.00 WIB)</string>
+    <string name="register">Daftar</string>
+    <string name="error">Kesalahan Jaringan</string>
 </resources>

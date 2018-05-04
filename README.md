@@ -2,18 +2,18 @@
 
 *Video Demo Aplikasi (Update 1 Mei 2018) : https://youtu.be/qVmRZ4M6qsY
 
-Project Requirement
-Menggunakan Google Maps API untuk mereload worldmap ✔
-Menampilkan spot tempat/lokasi pada radius tertentu ✔
-Melihat informasi lokasi secara lengkap seperti nama, alamat, kontak, fasilitas, deskripsi tempat, dsb ✘
-Pengguna dapat melakukan rating dan komen pada informasi tempat/lokasi tersebut ✘
-Menampilkan posisi user saat ini di map dengan mengakses GPS phone ✔
-Menampilkan prediksi jarak antara tempat/lokasi yg tampil dengan user ✔
-Melakukan direksi perjalanan dengan mengalihkan ke aplikasi Google Maps + **HERE MAPS** ✔
+*Project Requirement
+1) Menggunakan Google Maps API untuk mereload worldmap ✔ <br />
+2) Menampilkan spot tempat/lokasi pada radius tertentu ✔ <br />
+3) Melihat informasi lokasi secara lengkap seperti nama, alamat, kontak, fasilitas, deskripsi tempat, dsb ✘ <br />
+4) Pengguna dapat melakukan rating dan komen pada informasi tempat/lokasi tersebut ✘ <br />
+5)Menampilkan posisi user saat ini di map dengan mengakses GPS phone ✔ <br />
+6) Menampilkan prediksi jarak antara tempat/lokasi yg tampil dengan user ✔ <br />
+7) Melakukan direksi perjalanan dengan mengalihkan ke aplikasi Google Maps + **HERE MAPS** ✔ <br />
 
 *Aplikasi Place Finder ini dibuat oleh kelompok 3
-Reksa Suhud Tri Atmojo
-Pariyem
-Bagus Arifudin
+1) Reksa Suhud Tri Atmojo NPM 1515061001 <br />
+2) Pariyem NPM 1515061011  <br />
+3) Bagus Arifudin NPM 1515061037 <br />
 
 **NB : Pastikan akses internet tersambung dan pastikan akses location nyala. Grant Permission untuk Akses Lokasi perangkat pada Android 6.0 Marshmellow API 23 pada setting application android**

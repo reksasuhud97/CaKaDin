@@ -2,7 +2,7 @@
 
 *Video Demo Aplikasi (Update 1 Mei 2018) : https://youtu.be/qVmRZ4M6qsY
 
-*Project Requirement
+Project Requirement
 Menggunakan Google Maps API untuk mereload worldmap ✔
 Menampilkan spot tempat/lokasi pada radius tertentu ✔
 Melihat informasi lokasi secara lengkap seperti nama, alamat, kontak, fasilitas, deskripsi tempat, dsb ✘

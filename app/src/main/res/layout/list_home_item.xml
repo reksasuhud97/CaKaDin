@@ -3,62 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ic_bg">
-
-    <LinearLayout
+    <!-- TAMPILKAN FRAGMENT GOOGLE MAPS-->
+    <fragment
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="12dp"
-        android:background="#FFFFFF"
-        android:layout_marginLeft="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/tv_nama"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:textSize="24sp" />
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:id="@+id/imV"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/tv_alamat"
-                android:lineSpacingExtra="2dp"
-                android:textColor="#212121"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="Selengkapnya>>"
-                android:id="@+id/latitude"
-                android:textColor="#212121"
-                android:textSize="16sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="Selengkapnya>>"
-                android:id="@+id/longitude"
-                android:textColor="#212121"
-                android:textSize="16sp"/>
-
-
-        </LinearLayout>
-
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment" />
 </RelativeLayout>

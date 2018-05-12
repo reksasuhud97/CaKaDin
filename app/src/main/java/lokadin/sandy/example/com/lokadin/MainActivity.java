@@ -18,26 +18,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pk = new Pendeteksi_koneksi(getApplicationContext());
-        isKonek = pk.isConnectingToInternet();
+        isKonek = pk.isConnectingToInternet(); //melakukan cek koneksi internet
         if (isKonek){
-            Toast.makeText(this, "terhubung ke internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "terhubung ke internet", Toast.LENGTH_SHORT).show(); // jika terkoneksi tampilkan terhubung
         }else{
-            Toast.makeText(this, "tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "tidak ada koneksi internet", Toast.LENGTH_SHORT).show(); //jika tidak terkoneksi, tampilkan pesan juga
             //this.finish();
         }
     }
-    public void klikTombolMenu(View v){
-        Intent intent;
+    public void klikTombolMenu(View v){ //menampilkan beberapa tombol menu pada home
+        Intent intent; // membuat object intent baru, jadi pada saat tombol diklik maka akan mengalihkan ke activity lain
         switch (v.getId()) {
-            case R.id.tombolmaps:
+            case R.id.tombolmaps: //ketika tombol maps diklik, tampilkan activity mapsactivity
                 intent = new Intent (this, MapsActifity.class);
                 startActivity(intent);
                 break;
-            case R.id.tombolhome:
+            case R.id.tombolhome: //ketika tombol tambah lokasi diklik, tampilkan activity home item
                 intent = new Intent(this,HomeItem.class);
                 startActivity(intent);
                 break;
-            case R.id.tombolabout:
+            case R.id.tombolabout: //ketika tombol about diklik, tampilkan activity about us
                 intent = new Intent(this,AboutActifity.class);
                 startActivity(intent);
                 break;
@@ -46,12 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+//pada saat user mengklik setting ada opsi keluar, aplikasi akan melakukan konfirmasi terlebih dahulu
         if (id == R.id.action_settings) {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
             builder.setMessage("Anda yakin keluar dari Aplikasi?")
@@ -94,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 });
         dialog.show();
     }
+
+    //buat menu setting pada activity home
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

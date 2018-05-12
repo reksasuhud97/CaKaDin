@@ -1,116 +1,163 @@
 package lokadin.sandy.example.com.lokadin;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
 import android.widget.Toast;
-import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HomeItem extends AppCompatActivity {
-    protected ListView lv;
-    protected ListAdapter adapter;
-    SQLiteDatabase db;
-    Cursor cursor;
-    EditText et_db;
-    @SuppressWarnings("deprecation")
+/* coding ini untuk menambahkan marker / tempat baru di activity list_home_item */
+public class HomeItem extends FragmentActivity {
+
+    GoogleMap googleMap; /* buat map */
+    SharedPreferences sharedPreferences; /* siapkan cache hp */
+    int locationCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview_home);
-        db = (new DbHelper(this)).getWritableDatabase();
-        lv = (ListView) findViewById(R.id.lv);
-        et_db =(EditText) findViewById(R.id.et);
+        setContentView(R.layout.list_home_item); /* kode ini untuk activiry list_home_item */
 
-        try{
-            cursor = db.rawQuery("SELECT * FROM dinas ORDER BY nama ASC", null);
-            adapter = new SimpleCursorAdapter(this, R.layout.list_home_item, cursor, new String[] {"nama", "alamat", "img"}, new int[] {R.id.tv_nama, R.id.tv_alamat, R.id.imV});
-            lv.setAdapter(adapter);
-            lv.setTextFilterEnabled(true);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v,
-                                        int position, long id) {
-                    detail(position);
+// Getting Google Play availability status
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+
+// Showing status
+        if(status!=ConnectionResult.SUCCESS){ // Google Play Services are not available
+
+            int requestCode = 10;
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+            dialog.show();
+
+        }else { // Google Play Services are available
+
+// Getting reference to the SupportMapFragment of activity_main.xml
+            SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+// Getting GoogleMap object from the fragment
+            googleMap = fm.getMap();
+
+// Enabling MyLocation Layer of Google Map
+            googleMap.setMyLocationEnabled(true);
+
+// Opening the sharedPreferences object
+            sharedPreferences = getSharedPreferences("location", 0);
+
+// Getting number of locations already stored
+            locationCount = sharedPreferences.getInt("locationCount", 0);
+
+// Getting stored zoom level if exists else return 0
+            String zoom = sharedPreferences.getString("zoom", "0");
+
+// If locations are already saved
+            if(locationCount!=0){
+
+                String lat = "";
+                String lng = "";
+
+// Iterating through all the locations stored
+                for(int i=0;i<locationCount;i++){
+
+// Getting the latitude of the i-th location
+                    lat = sharedPreferences.getString("lat"+i,"0");
+
+// Getting the longitude of the i-th location
+                    lng = sharedPreferences.getString("lng"+i,"0");
+
+// Drawing marker on the map
+                    drawMarker(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
                 }
-            });
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Daftar Kantor Dinas");
-        }
-    }
-    @SuppressWarnings("deprecation")
-    public void search_db(View v){
-        String edit_db = et_db.getText().toString();
-        if(!edit_db.equals("")){
-            try{
-                cursor = db.rawQuery("SELECT * FROM dinas WHERE nama LIKE ?", new String[] {"%" +edit_db+ "%"});
-                adapter = new SimpleCursorAdapter(this, R.layout.list_home_item, cursor, new String[] {"nama", "alamat", "img"}, new int[] {R.id.tv_nama, R.id.tv_alamat, R.id.imV});
-                if(adapter.getCount() == 0){
-                    Toast.makeText(this, "Tidak ditemukan data dengan kata kunci "+edit_db+"", Toast.LENGTH_SHORT).show();
-                }else{
-                    lv.setAdapter(adapter);
-                }
-            }catch(Exception e){
-                e.printStackTrace();
+// Moving CameraPosition to last clicked position
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng))));
+
+// Setting the zoom level in the map on last position is clicked
+                googleMap.animateCamera(CameraUpdateFactory.zoomTo(Float.parseFloat(zoom)));
             }
-        }else{
-            try{
-                cursor = db.rawQuery("SELECT * FROM dinas ORDER BY nama ASC", null);
-                adapter = new SimpleCursorAdapter(this, R.layout.list_home_item, cursor, new String[] {"nama", "alamat", "img"}, new int[] {R.id.tv_nama, R.id.tv_alamat, R.id.imV});
-                lv.setAdapter(adapter);
-                lv.setTextFilterEnabled(true);
-            }catch(Exception e){
-                e.printStackTrace();
+
+        }
+
+        googleMap.setOnMapClickListener(new OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                locationCount++;
+
+// Drawing marker on the map
+                drawMarker(point);
+
+/** Opening the editor object to write data to sharedPreferences */
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+// Storing the latitude for the i-th location
+                editor.putString("lat"+ Integer.toString((locationCount-1)), Double.toString(point.latitude));
+
+// Storing the longitude for the i-th location
+                editor.putString("lng"+ Integer.toString((locationCount-1)), Double.toString(point.longitude));
+
+// Storing the count of locations or marker count
+                editor.putInt("locationCount", locationCount);
+
+/** Storing the zoom level to the shared preferences */
+                editor.putString("zoom", Float.toString(googleMap.getCameraPosition().zoom));
+
+/** Saving the values stored in the shared preferences */
+                editor.commit();
+
+                Toast.makeText(getBaseContext(), "Marker is added to the Map", Toast.LENGTH_SHORT).show();
+
             }
-        }
+        });
+
+        googleMap.setOnMapLongClickListener(new OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng point) {
+
+// Removing the marker and circle from the Google Map
+                googleMap.clear();
+
+// Opening the editor object to delete data from sharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+// Clearing the editor
+                editor.clear();
+
+// Committing the changes
+                editor.commit();
+
+// Setting locationCount to zero
+                locationCount=0;
+
+            }
+        });
+
     }
 
-    public void detail(int position){
-        int im = 0;
-        String _id = "";
-        String nama = "";
-        String alamat = "";
-        String no_tlpn = "";
-        String deskripsi = "";
-        String lat= "";
-        String lng ="";
-        if(cursor.moveToFirst()){
-            cursor.moveToPosition(position);
-            im = cursor.getInt(cursor.getColumnIndex("img"));
-            nama = cursor.getString(cursor.getColumnIndex("nama"));
-            alamat = cursor.getString(cursor.getColumnIndex("alamat"));
-            no_tlpn = cursor.getString(cursor.getColumnIndex("no_tlpn"));
-            deskripsi = cursor.getString(cursor.getColumnIndex("descripsi"));
-            lat = cursor.getString(cursor.getColumnIndex("latitude"));
-            lng = cursor.getString(cursor.getColumnIndex("longtitude"));
-        }
+    private void drawMarker(LatLng point){
+// Creating an instance of MarkerOptions
+        MarkerOptions markerOptions = new MarkerOptions();
 
-        Intent iIntent = new Intent(this, LokadinDetailActifity.class);
-        iIntent.putExtra("dataIM", im);
-        iIntent.putExtra("dataNama", nama);
-        iIntent.putExtra("dataAlamat", alamat);
-        iIntent.putExtra("dataNoTlpn", no_tlpn);
-        iIntent.putExtra("dataDeskripsi",deskripsi);
-        iIntent.putExtra("latitude",lat);
-        iIntent.putExtra("longtitude",lng);
-        setResult(RESULT_OK, iIntent);
-        startActivityForResult(iIntent, 99);
+// Setting latitude and longitude for the marker
+        markerOptions.position(point);
+
+// Adding marker on the Google Map
+        googleMap.addMarker(markerOptions);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+// Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
 }

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
-
+/* membuat splash screen saat aplikasi pertama dibuka */
 public class SplashScreenActivity extends AppCompatActivity {
     LinearLayout linlaHeaderProgress;
 

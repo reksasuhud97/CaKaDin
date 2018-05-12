@@ -1,5 +1,6 @@
 package lokadin.sandy.example.com.lokadin;
 
+/* coding ini untuk sementara belum difungsikan per tanggal 12/05/2018 karena DB SQLite pada DBHelper.java gagal query*/
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-
+/* coding ini untuk sementara belum difungsikan per tanggal 12/05/2018 karena DB SQLite pada DBHelper.java gagal query*/
 public class InfoWindows implements GoogleMap.InfoWindowAdapter {
     private View myContentsView;
     LayoutInflater inflater;

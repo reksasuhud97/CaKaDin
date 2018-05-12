@@ -6,6 +6,7 @@
     tools:context=".MainActivity" >
     <!-- Letak layout Header -->
 
+    <!-- TAMPILKAN FRAGMENT GOOGLE MAPS-->
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"

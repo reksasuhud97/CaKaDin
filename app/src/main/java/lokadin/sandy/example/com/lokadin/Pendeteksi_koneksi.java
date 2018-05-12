@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 
-
+/* coding pendeteksi status koneksi internet */
 public class Pendeteksi_koneksi {
     private Context _context;
 

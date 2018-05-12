@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-
+/* coding ini untuk sementara belum difungsikan per tanggal 12/05/2018 karena DB SQLite pada DBHelper.java gagal query*/
 public class MapsInfowindows extends AppCompatActivity{
     private GoogleMap map;
 

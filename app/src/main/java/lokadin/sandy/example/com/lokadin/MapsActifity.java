@@ -25,14 +25,16 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.widget.Toast;
 
-
+//karena query dbhelper gagal, kita akan membuat marker maps secara manual dengan mencatat longitude dan latitude
 
 public class MapsActifity extends AppCompatActivity {
-    static final LatLng Bandung = new LatLng(-5.421668639562308, 105.27362470941125);
+    static final LatLng lampung = new LatLng(-5.421668639562308, 105.27362470941125); //titik pusat saat maps pertama kali dibuka
     final int RQS_GooglePlayServices = 1;
-    private GoogleMap myMap;
+    private GoogleMap myMap; //buat objek map baru
     private String provider = null;
-    private Marker mCurrenPosition = null;
+    private Marker mCurrenPosition = null; //disini marker pusat belum dipanggil, maka diset null dulu
+
+    //membuat objek marker baru pada lokasi dinas dengan menginputkan latitude-longitude
     LatLng dinaspendidikan = new LatLng(-5.4332973, 105.2568225);
     LatLng dinaskesehatan = new LatLng(-5.4257687, 105.2710487);
     LatLng dinasPU = new LatLng(-5.3694961, 105.2356825);
@@ -54,22 +56,26 @@ public class MapsActifity extends AppCompatActivity {
     LatLng keluargaberencana = new LatLng(-5.55747945, 105.4146009);
     LatLng damkar = new LatLng(-5.3993774499, 105.24591994);
     LatLng perumahandanpemukiman = new LatLng(-5.277369599, 105.2307628);
+//------------------------------------------------------------------------------------------------------------
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps); //tampilkan activity maps
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Maps Kantor Dinas");
+            getSupportActionBar().setTitle("Maps Kantor Dinas"); //set judul activity
         }
 
         FragmentManager myFragmentManager = getSupportFragmentManager();
         SupportMapFragment mySupportMapFragment = (SupportMapFragment) myFragmentManager.findFragmentById(R.id.map);
         myMap = mySupportMapFragment.getMap();
 
+
+        //menambahkan info baru disetiap marker secara manual
         myMap.addMarker(new MarkerOptions().position(dinaspendidikan).icon(BitmapDescriptorFactory
                 .fromResource(R.drawable.marker)).title("Dinas Pendidikan").snippet("Jl. Amir Hamzah, Gotong Royong, Tj. Karang Pusat, Kota Bandar Lampung, Lampung 35119").alpha(0.5f));
         myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dinaspendidikan, 15));
@@ -131,18 +137,19 @@ public class MapsActifity extends AppCompatActivity {
                 .fromResource(R.drawable.marker)).title("Dinas Perumahan dan Kawasan Pemukiman").snippet("Jl. Gatot Subroto No.50, Garuntang, Tlk. Betung Sel., Kota Bandar Lampung, Lampung").alpha(0.5f));
         myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(perumahandanpemukiman, 15));
       
+        //-------------------------------------------------------------------------------------
+        myMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //set tipe map hybrid (citra satelit + jalur lalu lintas)
 
-        myMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        myMap.getUiSettings().setCompassEnabled(true); //nyalakan tombol arah ke utara
+        myMap.getUiSettings().setMapToolbarEnabled(true); //nyalakan tombol toolbar navigasi via google maps app
+        myMap.getUiSettings().setZoomControlsEnabled(true); //nyalakan tombol zoom
 
-        myMap.getUiSettings().setCompassEnabled(true);
-        myMap.getUiSettings().setMapToolbarEnabled(true);
-        myMap.getUiSettings().setZoomControlsEnabled(true);
-        myMap.getUiSettings().setMapToolbarEnabled(true);
-        myMap.getUiSettings().setTiltGesturesEnabled(true);
-        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Bandung, 12));
+        myMap.getUiSettings().setTiltGesturesEnabled(true); //nyalakan gesture, misal : cubit layar dan rotasi layar menggunakan dua jari
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lampung, 12)); //set titik pusat saat maps pertama dibuka dengan zoom 12x
 
         myMap.setMyLocationEnabled(true);
 
+        //aksi saat marker diklik maka alihkan ke navigasi google maps menggunakan URL melalui lat dan long source address dan destination address
         myMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
             @Override
@@ -153,12 +160,13 @@ public class MapsActifity extends AppCompatActivity {
                     StringBuilder urlString = new StringBuilder();
                     String daddr = (String.valueOf(arg0.getPosition().latitude) + "," + String.valueOf(arg0.getPosition().longitude));
                     String saddr = (String.valueOf(myMap.getMyLocation().getLatitude()) + "," + String.valueOf(myMap.getMyLocation().getLongitude()));
-                    urlString.append("http://maps.google.com/maps?f=d&hl=en");
-                    urlString.append("&saddr=" + saddr);
+                    urlString.append("http://maps.google.com/maps?f=d&hl=en"); //semantik uri
+                    urlString.append("&saddr=" + saddr); //tambahkan string lat dan long dibelakang string url lokasi user saat ini
                     urlString.append("&daddr=" + daddr);
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString.toString()));
 
                     startActivity(i);
+
                 } catch (Exception ee) {
 
                     Toast.makeText(getApplicationContext(), "Lokasi Saat Ini Belum Didapatkan, Coba Nyalakan GPS, Keluar Ruangan dan Tunggu Beberapa Saat", Toast.LENGTH_LONG).show();
@@ -167,7 +175,7 @@ public class MapsActifity extends AppCompatActivity {
             }
         });
 
-
+//saat info marker diklik tampilkan aksi berikut
         myMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
             @Override
@@ -189,16 +197,24 @@ public class MapsActifity extends AppCompatActivity {
                 Location locationB = new Location("point B");
                 locationB.setLatitude(latLngB.latitude);
                 locationB.setLongitude(latLngB.longitude);
-
+//coding perintah menghitung distance menggunakan toast
                 double distance = locationA.distanceTo(locationB);
                 int distance2 = (int) distance;
                 String jarak = Double.toString(distance2);
                 Toast.makeText(getApplicationContext(), "Ketuk Tanda untuk Melakukan Navigasi , Jarak Kesana : " + jarak + "Meter", Toast.LENGTH_SHORT).show();
                 // TODO Auto-generated method stub
-                //JIKA KLIKNYA INGIN DI INFO WINDOW
 
+                //kirim sms emergency ke nomor yang telah diset mengenai koordinat lokasi tujuan untuk tujuan keamanan
+                String daddr = (String.valueOf(arg0.getPosition().latitude) + "," + String.valueOf(arg0.getPosition().longitude));
+                String saddr = (String.valueOf(myMap.getMyLocation().getLatitude()) + "," + String.valueOf(myMap.getMyLocation().getLongitude()));
+                Uri uri = Uri.parse("smsto:085789921564");
+                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                i.putExtra("sms_body", "saya akan pergi ke tempat dengan koordinat ini" + daddr);
+                startActivity(i);
             }
         });
+
     }
 }
+
 

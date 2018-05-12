@@ -19,7 +19,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         ContentValues values = new ContentValues();
-        values.put("_id", "999");
+        values.put("_id", "111");
         values.put("nama", "Dinas Pendidikan & Kebudayaan ");
         values.put("alamat", "Jl. Amir Hamzah, Gotong Royong, Tj. Karang Pusat, Kota Bandar Lampung, Lampung 35119");
         values.put("no_tlpn", "0721-253752");

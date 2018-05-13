@@ -12,8 +12,6 @@
 7) Melakukan direksi perjalanan dengan mengalihkan ke aplikasi Google Maps + **HERE MAPS** ✔ <br />
 
 *Aplikasi Place Finder ini dibuat oleh kelompok 3
-1) Reksa Suhud Tri Atmojo NPM 1515061001 <br />
-2) Pariyem NPM 1515061011  <br />
-3) Bagus Arifudin NPM 1515061037 <br />
+
 
 **NB : Pastikan akses internet tersambung dan pastikan akses location nyala. Grant Permission untuk Akses Lokasi perangkat pada Android 6.0 Marshmellow API 23 pada setting application android**

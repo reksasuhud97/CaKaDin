@@ -13,7 +13,7 @@ import android.widget.TextView;
 class CustomAdapter extends ArrayAdapter<String> {
 
     CustomAdapter(@NonNull Context context, String[] foods) {
-        super(context, R.layout.custom_row, foods);
+        super(context, R.layout.custom_row, foods); //tampilkan layout baris comment
     }
 
     @NonNull
@@ -27,7 +27,7 @@ class CustomAdapter extends ArrayAdapter<String> {
         TextView myText = (TextView) customView.findViewById(R.id.myText);
         ImageView myImage = (ImageView) customView.findViewById(R.id.myImage);
         myText.setText(singleFoodItem);
-
+//tampilkan gambar masing-masing dinas
         if(singleFoodItem == "Diskominfo") {
             myImage.setImageResource(R.drawable.dinas_keminfo);
         }else if(singleFoodItem == "Disdukcapil"){
